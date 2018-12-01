@@ -1,0 +1,289 @@
+$line-height: 24px;
+
+.wabun-edit {
+  .highlight {
+    background: rgb(169, 209, 255);
+  }
+  
+  .overline {
+    text-decoration: overline;
+  }
+  
+  .inline,
+  .inline-name {
+    color: rgb(26, 170, 0);
+  }
+  .block,
+  .block-name {
+    color: purple;
+  }
+  .inline-name,
+  .block-name {
+    font-weight: bold;
+  }
+  .furigana {
+    color: #0400ff;
+  }
+  .okuri {
+    //color: rgb(255, 145, 1);
+  }
+  .kaeri {
+    font-weight: bold;
+    //color: rgb(183, 1, 255);
+  }
+  .char.error {
+    background: #ffa2a2 !important;
+    //color: red;
+    font-weight: bold;
+    &:before {
+      background: #ffa2a2 !important;
+    }
+  }
+  .outline, .outline::before {
+    font-weight: bold;
+    //color: rgb(107, 173, 0);
+    //outline: solid 1px #c7c7c7;
+    background: #e3effd;
+  }
+  
+  .focus {
+    background: #e3effd;
+  }
+  
+  position: relative;
+  @font-face {
+    font-family: 'YuGothic M';
+    src: local('Yu Gothic Medium'), local('Yu Gothic');
+    font-weight: 500;
+    /*
+           Chrome 58.0.3029.110 (64-bit) では
+           "Yu Gothic Medium" を認識しないバグあるため
+           "Yu Gothic" と font-weight も併せて指定。
+         */
+  }
+  @font-face {
+    font-family: 'SourceHanCodeJP-Regular';
+    src: local('SourceHanCodeJP-Regular');
+  }
+  font-family: 'MS ゴシック';
+  * {
+    //font-family: '游ゴシック体', YuGothic, 'YuGothic M', sans-serif;
+    //font-family: 'Courier New', Consolas, monospace;
+  }
+  .display {
+    position: relative;
+    border: 1px solid rgb(142, 142, 142);
+    white-space: pre-wrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    text-align: right;
+
+    .source-panel {
+      display: inline-block;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      text-align: left;
+      writing-mode: vertical-rl;
+      min-width: 100%;
+      box-sizing: border-box;
+      margin-top: 30px;
+      padding: 35px 5px 7px;
+      margin: 0;
+      counter-reset: number;
+      .line {
+        min-width: 24px;
+        // margin-left: -0.2px;
+        position: relative;
+        word-break: break-word;
+        &:before {
+          counter-increment: number;
+          content: counter(number);
+          position: absolute;
+          top: -30px;
+          width: 100%;
+          writing-mode: horizontal-tb;
+          color: rgb(142, 142, 142);
+          font-size: 10px;
+          text-align: right;
+          padding-right: 8px;
+        }
+        &.error:before {
+          color: #ffa2a2 !important;
+          //color: red;
+          font-weight: bold;
+        }
+      }
+      .selected {
+        background: rgb(169, 209, 255);
+      }
+      .lb::before {
+        content: '↵';
+        color: rgb(169, 209, 255);
+        font-size: 12px;
+        margin-top: 2px;
+        position: absolute;
+      }
+      .zenkaku-space {
+        color: rgb(220, 220, 220);
+      }
+    }
+    .caret-panel {
+      writing-mode: vertical-rl;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      .caret {
+        width: 18px;
+        position: absolute;
+        border-top: 1px solid black;
+        animation: 1s linear infinite blink_effect;
+      }
+    }
+  }
+  .source-panel,
+  .editor {
+    line-height: $line-height;
+    resize: none;
+    font-size: 16px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+
+  .source-panel {
+    position: relative;
+    .linenum {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      right: 0;
+      height: 30px;
+      background: rgb(246, 246, 246);
+    }
+  }
+  .editor {
+    overflow-x: wrap;
+    overflow-y: scroll;
+    outline: none !important;
+    transform: rotate(90deg);
+    transform-origin: left top;
+    line-height: 24px;
+    padding: 5px;
+    opacity: 0;
+    position: absolute;
+    left: 500px;
+    top: 30px;
+    cursor: vertical-text;
+    z-index: 999999;
+  }
+}
+
+.popup {
+  display: block;
+  position: fixed;
+  text-align: left;
+  background: rgb(29, 29, 29);
+  color: rgb(212, 212, 212);
+  max-width: 300px;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 3px;
+  margin-top: -20px;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.6));
+}
+
+.action-menu {
+  position: fixed;
+  background: #1d1d1d;
+  color: #d4d4d4;
+  max-width: 300px;
+  font-size: 14px;
+  margin-top: -20px;
+  filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.4));
+  text-align: left;
+  z-index: 9999999;
+  padding: 3px 0;
+  border-radius: 3px;
+  .action-header {
+    padding: 3px 5px;
+    color: rgb(155, 155, 155);
+    font-size: 12px;
+  }
+  .action-item {
+    padding: 3px 32px 3px 16px;
+    min-width: 100px;
+    display: box;
+    &:hover {
+      background: rgb(77, 77, 77);
+    }
+  }
+  .action-group {
+    .right-arrow {
+      position: absolute;
+      right: 5px;
+    }
+  }
+}
+
+
+@keyframes blink_effect {
+  0% {
+    visibility: visible;
+  }
+  50% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+
+.koji {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  line-height: 200%;
+  .datetime, .person, .document, .geography, .building, .seg, .measure {
+    color: #0400ff;
+  }
+  .datetime{
+    text-decoration: overline dotted;
+    &::before{font-size: 5px;}
+  }
+  .okurigana{
+    font-size: 1px;
+    vertical-align: super;
+  }
+  .kaeriten{
+    font-size: 1px;
+    vertical-align: sub;
+  }
+  .warigaki {
+    display: inline-table;
+    -webkit-writing-mode: vertical-lr;
+    writing-mode: vertical-lr;
+    -ms-writing-mode: vertical-rl;
+    -moz-writing-mode: vertical-rl;		
+    vertical-align: top;                
+  }
+  .warigaki-left, .warigaki-right {
+    font-size:50%;
+    display: table-row;
+    line-height: 150%;
+  }
+  .box {
+    margin: 2px;
+    border: 1px solid black;
+    display: inline;
+  }
+  .comment {
+    color: red;
+    &:before{content: '\1F4AC';font-size: 12px;margin: 5px 0 -5px;}
+  }
+  .dubious, .illegible {
+    background-color: yellow;&:after{content: '\2753';font-size: 5px;}
+  }
+}

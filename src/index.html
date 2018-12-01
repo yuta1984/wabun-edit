@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Koji</title>
+    <meta name="description" content="Koji editor" />
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://mbraak.github.io/jqTree/tree.jquery.js"></script>
+    <script src="https://unpkg.com/tippy.js@3/dist/tippy.all.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jqtree/1.4.9/jqtree.css"
+    />
+  </head>
+
+  <body style="">
+    <div
+      id="container"
+      style="width: 50%; height: 98vh; display: inline-block;"
+    ></div>
+    <!-- デモ用HTML表示 -->
+    <!-- デモ用ツリー -->
+    <div style="width: 45%; height: 98vh; display: inline-block;">
+      <div
+        id="html-view"
+        style="height: 60%; width: 99%; overflow-y: hidden; writing-mode: vertical-rl; padding: 5px; border: 1px solid black;"
+      ></div>
+      <div
+        id="tree"
+        style="height: 37%; width: 99%; margin-top: 5px;padding: 0 5px; overflow-y: scroll; border: 1px solid black;"
+      ></div>
+    </div>
+    <script src="/koji-editor.js"></script>
+    <script>
+      const jishin =
+        '［表紙］\n安政二改正\n大日本神代ヨリ　　《囲い書き：禁売 》\n《題：地震年代記》\n浪花　文麗堂藏板\n［／表紙］\n\n［序文］\n《日時：ことし安政二年卯十月二日》｜人定（にんてい）にいたり希有（けう）の大地動（おほぢしん）あり倉屋（さうをや）悉（こと〳〵）く損（そこな）はれ\n人畜（にんちく）の傷體（けが）許多（あまた）なれば貴賎（きせん）上下神（たましひ）を失（うしな）ひ恐怖（きようふ）せざるものなししかるに名（な）\nだゝる神社佛閣（しんじやふつかく）にいたりては十に九ツ恙（つつが）なきは奇（あや）しくもいと尊（たふと）し仰（あふ）かざらめや\n敬（けい）せざらめや《史料：埃嚢鈔（あいのうせう）《割書：十四｜巻》》に地震動の吉凶（きつきよう）を知（し）る法（ほう）を載（のせ）たりこれによるに《日時：十月\n二日》は二十八宿の虚宿（きょしゆく）に値（あへ）り時（とき）は《日時：亥刻（ゐのこく）》なり佛説（ぶつせつ）に此日此時の地震（ぢしん）を帝釈動（たいしやくゆり）と\n称（とな）へて其徴（そのしるし）は天下（てんか）安穩（あんおん）五穀（ごこく）豊饒（ぶねう）天子（てんし）吉大臣（きつだいじん）福（ふく）を受（うけ）万民（はんみん）安穩（あんをん）也（なり）としるせり火神動（くわじんゆり）\n龍神動（りうじんゆり）金翅鳥動（こんしてうゆり）と震動（ぢしん）に四種（ししゆ）ある事｜大智度論（たいちどろん）に出て帝釈動（たいしやくゆり）の外（ほか）は皆（みな）凶兆（きようてう）なり大\n鯰（なまづ）の所為（わざ）といふも金翅鳥動（こんしてうゆり）の類（たぐひ）なるべし兔（と）にも角（かく）にもいとめてたき世直（よなほ）しにこそ此一小冊（このいつせうさつ）は\n上代（じやうだい）よりの地震（ぢしん）を古今（ここん）の書籍（しよぢやく）より鈔略（せうりやく）取詮（しゆせん）して今度（こんど）のにいくらも勝（まさ）る地震｜数十度（すじふど）\nありしかど世（よ）の衰獘（すゐへい）するにもあらず弥栄（いやさか）えにさかえて天地（あめつち）と共（とも）に窮（きはま）りなき我葦原（わがあしはら）\nの中国（なかつくに）の泰平（たいへい）万々歳（ばん〳〵ぜい）たるよしを人々に知（し）らせ参（まゐ）らせんとて\n《人物：無名氏識》\n［／序文］\n';
+      const wakan =
+        '［字下げ二］\n《題：春　立春》\n［／字下げ二］\n［漢詩］\n逐（ヲツ）〔テ〕｛レ｝吹（カセ）〔ヲ〕潛〔カニ〕開〔ク〕不（ス）｛レ｝待〔タ〕｛二｝芳（ハウ）菲（ヒ）〔ノ〕之｜候（コウ）〔ヲ〕｛一｝　迎（ムカヘ）〔テ〕｛レ｝春〔ヲ〕乍（タチマ）〔チ〕変〔ス〕\n将〔ス〕｛レ｝希〔ハン〕｛二｝雨露〔ノ〕之恩〔ヲ〕｛一｝　《割書：内宴〔ニ〕進｛レ｝花賦紀〔ノ〕｜叔望《人物：公乗億 》》\n［／漢詩］\n［漢詩］\n池〔ノ〕凍〔ノ〕東頭〔ハ〕風｜度（ワタツ）〔テ〕解〔ケ〕窓〔ノ〕梅〔ノ〕北面ハ雪封〔シテ〕寒〔シ〕　《割書：立春〔ノ〕日〔ノ〕書懐 呈〔ス〕｛二｝｜芸閣諸分友｛一｝》　《人物：篤茂 》\n［／漢詩］\n［和歌］\n年のうちに春はきにけりひとゝせを\n　　こそとやいはんことしとやいはん　《人物：元方 》\n［／和歌］\n［漢詩］\n柳無〔シ〕｛二｝気力｛一｝条（エダ）先（マヅ）動〔キ〕池〔二〕有｛二｝波〔ノ〕文｛一｝氷盡〔ク〕開〔ク〕　《場所：府西池 》　《人物：白 》\n［／漢詩］\n［漢詩］\n今日不｛レ｝知〔ラ〕誰〔カ〕計會〔セン〕　春風春水一時〔ニ〕来（キ）〔タラント〕《場所：府西池 》　《人物：白 》\n［／漢詩］\n［漢詩］\n夜間（ナンナントシテ？）｛二｝更〔ニ〕寒磬盡キ　春生（ナ）〔リテ〕｛二｝香火〔二〕｛一｝暁炉燃（モ）〔ユ〕　山寺立春　《人物：良春道 》\n［／漢詩］\n';
+      // エディターを格納する要素を取得
+      let container = document.getElementById('container');
+      // 指定した要素をルートとしてエディターを初期化
+      let editor = new WabunEdit(container, { value: jishin });
+
+      // デモ用: astをツリービュー用に加工
+      function ast2Tree(ast) {
+        let id = '';
+        let classList = '';
+        if (ast.attrs && ast.attrs.id) id = ` ID: ${ast.attrs.id}`;
+        if (ast.attrs && ast.attrs.classList)
+          classList = ` Class: ${ast.attrs.classList.join(', ')}`;
+        ast.name = ast.typeJP + ` (${ast.type}${id}${classList})` || ast.type;
+        if (ast.type === 'text') ast.name += ': ' + ast.value;
+        if (ast.content && Array.isArray(ast.content)) {
+          ast.children = ast.content;
+          ast.content.forEach(node => {
+            ast2Tree(node);
+          });
+        }
+        return ast;
+      }
+      let ast, value;
+      $('#tree').tree();
+      $('#tree').on('tree.click', function(event) {
+        // The clicked node is 'event.node'
+        let node = event.node;
+        let start = node.location.start.offset;
+        let end = node.location.end.offset;
+        editor.removeClass('outline', 0, editor.value.length - 1);
+        editor.addClass('outline', start, end);
+      });
+      // デモ用: ASTをHTMLに変換
+      let converter = editor.mode.converters.html;
+      setInterval(function() {
+        if (value !== editor.value) {
+          ast = Object.assign({}, editor.ast);
+          value = editor.value;
+          $('#tree').tree('loadData', [ast2Tree(ast)]);
+          $('#html-view').html(converter(ast));
+          // set tooltips
+          tippy('.inline');
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

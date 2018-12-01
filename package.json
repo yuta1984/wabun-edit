@@ -1,0 +1,51 @@
+{
+  "name": "wabun-edit",
+  "version": "0.0.1",
+  "description": "A web-based text editor specialized for Japanese texts",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --port 9000 --inline --progress --profile --colors --watch --content-base src/ --mode development",
+    "build": "webpack --config webpack.config.js --mode production",
+    "build.prod": "webpack --config webpack.config.js -p",
+    "test": "karma start karma.config.js --auto-watch"
+  },
+  "keywords": [
+    "webpack",
+    "webpack4",
+    "typescript"
+  ],
+  "author": "Yuta Hashimoto",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jasmine": "2.8.7",
+    "@types/node": "7.0.0",
+    "@types/virtual-dom": "^2.1.0",
+    "awesome-typescript-loader": "5.2.0",
+    "css-loader": "^1.0.1",
+    "jasmine-core": "3.1.0",
+    "karma": "2.0.4",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-html-reporter": "^0.2.7",
+    "karma-jasmine": "1.1.2",
+    "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-jasmine-html-reporter-livereload": "^1.0.0",
+    "karma-phantomjs-launcher": "1.0.4",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-typescript-preprocessor": "^0.4.0",
+    "karma-webpack": "3.0.0",
+    "node-sass": "^4.9.4",
+    "sass-loader": "^7.1.0",
+    "source-map-loader": "0.2.3",
+    "style-loader": "^0.23.1",
+    "tslint": "5.10.0",
+    "tslint-config-prettier": "^1.16.0",
+    "tslint-loader": "3.6.0",
+    "typescript": "2.8.3",
+    "webpack": "4.12.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "3.1.4"
+  },
+  "dependencies": {
+    "virtual-dom": "^2.1.1"
+  }
+}
